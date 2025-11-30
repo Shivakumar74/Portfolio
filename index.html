@@ -428,6 +428,7 @@
     </section>
 
     <!-- Technical Analysis Section (SQL + Power BI) -->
+    <!-- Technical Analysis Section (SQL + Power BI) -->
     <section id="analytics" class="py-20 bg-background">
         <div class="container mx-auto px-6">
             <div class="grid lg:grid-cols-2 gap-12 items-start">
@@ -437,14 +438,14 @@
                     <div>
                         <h2 class="font-serif text-3xl md:text-4xl mb-4">Data Analytics Showcase</h2>
                         <p class="text-secondary">
-                            I don't just find data; I question it. Here is an example of a sales analysis query and how I visualize the results in Power BI.
+                            My analysis of the global Cocoa crisis. I used SQL to aggregate historical pricing trends and Power BI to visualize the supply-demand deficit driving the price surge.
                         </p>
                     </div>
 
                     <!-- Interactive Code Block -->
                     <div class="bg-primary text-gray-300 p-6 rounded-xl font-mono text-sm shadow-xl overflow-x-auto">
                         <div class="flex justify-between items-center border-b border-gray-700 pb-2 mb-4">
-                            <span class="text-accent font-bold">SQL Query: Sales Performance</span>
+                            <span class="text-accent font-bold">SQL Query: Price vs. Supply Correlation</span>
                             <div class="flex gap-2">
                                 <span class="w-3 h-3 rounded-full bg-red-500"></span>
                                 <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
@@ -452,23 +453,24 @@
                             </div>
                         </div>
                         <pre><code><span class="text-purple-400">SELECT</span> 
-    Product_Category,
-    <span class="text-blue-400">SUM</span>(Revenue) <span class="text-purple-400">AS</span> Total_Revenue,
-    <span class="text-blue-400">COUNT</span>(DISTINCT Customer_ID) <span class="text-purple-400">AS</span> Unique_Buyers
+    Region,
+    <span class="text-blue-400">AVG</span>(Price_USD_Tonne) <span class="text-purple-400">AS</span> Avg_Price,
+    <span class="text-blue-400">SUM</span>(Production_Deficit) <span class="text-purple-400">AS</span> Total_Deficit
 <span class="text-purple-400">FROM</span> 
-    Sales_Data_2024
+    Global_Cocoa_Market_2024
 <span class="text-purple-400">WHERE</span> 
-    Region = <span class="text-green-400">'North America'</span>
+    Year = <span class="text-green-400">'2024'</span> 
+    <span class="text-purple-400">AND</span> Region <span class="text-purple-400">IN</span> (<span class="text-green-400">'West Africa'</span>, <span class="text-green-400">'South America'</span>)
 <span class="text-purple-400">GROUP BY</span> 
-    Product_Category
+    Region
 <span class="text-purple-400">ORDER BY</span> 
-    Total_Revenue <span class="text-purple-400">DESC</span>;</code></pre>
+    Avg_Price <span class="text-purple-400">DESC</span>;</code></pre>
                     </div>
 
                     <div class="bg-white p-6 rounded-xl border border-muted">
                         <h4 class="font-bold mb-2">Analysis Insight</h4>
                         <p class="text-sm text-secondary">
-                            The query reveals that while <span class="font-semibold text-primary">Electronics</span> drive the most revenue, <span class="font-semibold text-primary">Home Goods</span> have a higher repeat purchase rate. I recommended bundling these categories to increase average order value.
+                            The data reveals a <span class="font-semibold text-primary">inverse correlation</span> between rainfall levels in Ivory Coast/Ghana and global price indices. The current 40% production drop has pushed prices to historic highs, signaling a need for supply chain diversification.
                         </p>
                     </div>
                 </div>
@@ -477,31 +479,34 @@
                 <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-muted h-full">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="font-bold text-lg">Power BI Dashboard Mockup</h3>
-                        <select id="regionFilter" class="bg-background border border-muted text-sm rounded-lg px-3 py-1 focus:ring-accent focus:border-accent">
-                            <option value="na">North America</option>
-                            <option value="eu">Europe</option>
-                            <option value="asia">Asia Pacific</option>
-                        </select>
+                        <!-- Mock Filter Control -->
+                        <div class="flex gap-2">
+                            <span class="text-xs font-semibold uppercase text-secondary self-center">View:</span>
+                            <select id="cocoaFilter" class="bg-background border border-muted text-sm rounded-lg px-2 py-1 focus:ring-accent focus:border-accent cursor-pointer">
+                                <option value="price">Price Trend</option>
+                                <option value="supply">Supply Deficit</option>
+                            </select>
+                        </div>
                     </div>
                     
-                    <!-- Main Bar Chart -->
+                    <!-- Main Line Chart -->
                     <div class="mb-8">
                         <div class="chart-container">
-                            <canvas id="revenueChart"></canvas>
+                            <canvas id="cocoaChart"></canvas>
                         </div>
                     </div>
 
                     <!-- KPI Cards -->
                     <div class="grid grid-cols-2 gap-4">
                         <div class="p-4 bg-background rounded-lg border border-muted">
-                            <p class="text-xs text-secondary uppercase mb-1">Total Revenue</p>
-                            <p class="text-2xl font-bold font-serif" id="kpiRevenue">$1.2M</p>
-                            <p class="text-xs text-green-600 mt-1"><i class="fas fa-arrow-up"></i> 12% vs last month</p>
+                            <p class="text-xs text-secondary uppercase mb-1">YoY Price Surge</p>
+                            <p class="text-2xl font-bold font-serif" id="kpiOne">+140%</p>
+                            <p class="text-xs text-red-600 mt-1"><i class="fas fa-arrow-up"></i> Historic High</p>
                         </div>
                         <div class="p-4 bg-background rounded-lg border border-muted">
-                            <p class="text-xs text-secondary uppercase mb-1">Conversion Rate</p>
-                            <p class="text-2xl font-bold font-serif" id="kpiConversion">3.4%</p>
-                            <p class="text-xs text-secondary mt-1">Stable</p>
+                            <p class="text-xs text-secondary uppercase mb-1">Global Deficit</p>
+                            <p class="text-2xl font-bold font-serif" id="kpiTwo">374k Tons</p>
+                            <p class="text-xs text-secondary mt-1">Supply Shortage</p>
                         </div>
                     </div>
                 </div>
@@ -610,48 +615,62 @@
             });
 
             // --- 2. ANALYTICS CHART (Power BI Mockup) ---
-            const ctxBar = document.getElementById('revenueChart').getContext('2d');
+           // --- 2. ANALYTICS CHART (Cocoa Analysis) ---
+            const ctxCocoa = document.getElementById('cocoaChart').getContext('2d');
             
-            // Data for different regions to simulate interactivity
-            const regionData = {
-                na: { data: [12000, 19000, 3000, 5000], kpi: "$1.2M" },
-                eu: { data: [8000, 12000, 7000, 4000], kpi: "€950K" },
-                asia: { data: [15000, 11000, 5000, 8000], kpi: "¥120M" }
+            // Mock Data Scenarios
+            const cocoaData = {
+                price: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    data: [4200, 4800, 5600, 7100, 8500, 9800], // Simulating the 2024 price surge
+                    label: 'Price per Ton (USD)',
+                    color: '#ea580c', // Accent Orange
+                    kpi1: "+140%",
+                    kpi2: "374k Tons"
+                },
+                supply: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    data: [100, 95, 88, 82, 75, 60], // Dropping supply index
+                    label: 'Supply Index (Vol)',
+                    color: '#1c1917', // Dark Grey
+                    kpi1: "-40%",
+                    kpi2: "Severe"
+                }
             };
 
-            const barChart = new Chart(ctxBar, {
-                type: 'bar',
+            let currentCocoaChart = new Chart(ctxCocoa, {
+                type: 'line',
                 data: {
-                    labels: ['Electronics', 'Home Goods', 'Apparel', 'Books'],
+                    labels: cocoaData.price.labels,
                     datasets: [{
-                        label: 'Revenue',
-                        data: regionData.na.data,
-                        backgroundColor: [
-                            '#1c1917', // Primary
-                            '#ea580c', // Accent
-                            '#a8a29e', // Grey
-                            '#d6d3d1'
-                        ],
-                        borderRadius: 4
+                        label: cocoaData.price.label,
+                        data: cocoaData.price.data,
+                        borderColor: cocoaData.price.color,
+                        backgroundColor: 'rgba(234, 88, 12, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4, // Smooth curves
+                        fill: true,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: cocoaData.price.color
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false },
+                        legend: { display: true, position: 'top', align: 'end', labels: { font: { family: 'Inter' } } },
                         tooltip: {
+                            mode: 'index',
+                            intersect: false,
                             backgroundColor: '#1c1917',
                             padding: 12,
                             titleFont: { size: 14, family: 'Inter' },
-                            bodyFont: { size: 13, family: 'Inter' },
-                            cornerRadius: 8,
-                            displayColors: false
+                            bodyFont: { size: 13, family: 'Inter' }
                         }
                     },
                     scales: {
                         y: {
-                            beginAtZero: true,
                             grid: { color: '#f5f5f4' },
                             ticks: { color: '#78716c' }
                         },
@@ -663,22 +682,29 @@
                 }
             });
 
-            // Handle Region Filter Change
-            document.getElementById('regionFilter').addEventListener('change', function(e) {
+            // Handle Filter Change
+            document.getElementById('cocoaFilter').addEventListener('change', function(e) {
                 const selected = e.target.value;
-                const newData = regionData[selected];
+                const newData = cocoaData[selected];
                 
-                // Update Chart
-                barChart.data.datasets[0].data = newData.data;
-                barChart.update();
+                // Update Chart Data
+                currentCocoaChart.data.datasets[0].data = newData.data;
+                currentCocoaChart.data.datasets[0].label = newData.label;
+                currentCocoaChart.data.datasets[0].borderColor = newData.color;
+                currentCocoaChart.data.datasets[0].pointBorderColor = newData.color;
+                
+                // If it's supply, make it grey, if price, make it orange
+                if(selected === 'supply') {
+                     currentCocoaChart.data.datasets[0].backgroundColor = 'rgba(28, 25, 23, 0.1)';
+                } else {
+                     currentCocoaChart.data.datasets[0].backgroundColor = 'rgba(234, 88, 12, 0.1)';
+                }
+                
+                currentCocoaChart.update();
 
-                // Update Text KPI
-                document.getElementById('kpiRevenue').innerText = newData.kpi;
-                
-                // Simple animation for KPI
-                const kpiElement = document.getElementById('kpiRevenue');
-                kpiElement.style.color = '#ea580c';
-                setTimeout(() => { kpiElement.style.color = '#1c1917'; }, 300);
+                // Update KPIs
+                document.getElementById('kpiOne').innerText = newData.kpi1;
+                document.getElementById('kpiTwo').innerText = newData.kpi2;
             });
 
             // --- 3. PORTFOLIO FILTERING LOGIC ---
@@ -718,6 +744,7 @@
 </body>
 
 </html>
+
 
 
 
